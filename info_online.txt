@@ -1,0 +1,14 @@
+The  power center repository is a relational database, a system databases which contains meta data which is required to perform extraction, transformation and loading
+
+The Repository service is a “multithreaded” process which inserts, updates, delete and retrieve metadata from repository.
+
+The integration service access the repository through repository service to read the metadata such as mapping and sessions.
+The integration service also stores metadata such as session log, session and workflow status in the repository through repository service
+
+Session log are created integration service.
+
+A domain is a grouping of one or more nodes. The domain forms the environment upon which the Informatica service processes run.
+
+Connected/Unconnected lookup - http://etllabs.com/informatica/basics-of-connected-and-unconnected-lookups-in-informatica/5301/#
+
+

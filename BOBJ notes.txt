@@ -1,0 +1,189 @@
+BO - Business Object (BOBJ)
+
+-Designer(used for creating the universe)
+-Desktop Intelligence
+-Web Intelligence
+-Crystal Reports(CR)
+-Xcelsius
+
+What is a universe?
+-Universe is a semantic layer which is built to connect to data sources and reporting applications.
+
+SAP BW-
+Info objects
+DSO
+Multi Providers
+
+Report-
+Bex Query
+
+Designer is a software that allows you to create universe for Web Intellligence and Desktop Intelligence users.
+
+What does universe contain?
+-Connection Parameters for 1 or more database middleware. (Data blending is a process used for connecting to multiple data sources).
+-sql structures - that map ti the databases by using classes and objects.
+-schema of the tables and joins used in the database.
+
+What is a class or classes - 
+A class is a logical group of objects within a universe. It represents a category of objects.
+
+Objects - 
+An object is a name component that maps to data in the database.
+
+Universe should be made as either project specific or function specific.
+
+Objects are classified into dimension, detail and measure.
+Dimensions are parameters for analysis. Dimensions typically relate to a hierarchy such as geography, product or time.
+Detail provides a description of a dimension but are not the focus for analysis.
+Measure conveys numeric information which is used to quantify a dimension object.
+
+Types of database schemas that are supported by the universe-
+-Production schema-Normalised table and aggregate table falls under Production schema.U
+-Data warehouse schema-(Star Schema and Snowflake schema fall under data warehouse schema)
+
+Universes are stored in central management system repository (CMS).
+
+Tasks of universe designer-
+Conducting user needs analysis, designing and creating the universe, distributing the universe and maintaining the universe.
+
+Universe Development Cycle- 
+	Phase			Description
+ Prepare			 Identify the target data source.
+				 Know what data is contained in each table.
+				 Understanding the joins and cardinality.
+
+ Analyse			 Identify the user population and how it is structured.
+ 				 Identify what information the users need.
+				 Identify what standard reports they require.
+
+ Plan				 Identify a project strategy.(eg. how many universe should be created and 				 which one should have the capacity to be linked).
+
+ Implement			 Building the universe using designer.
+				 
+ Test				 Test the universe using simulators. 
+
+ Deploy				 Distribute the universe by exporting the universe to CMS where it can be 				 accessed by end users.
+
+ Evolve				 Update and maintain the universe as the data sources and requirements 				 changes.
+
+ 
+Universe has 3 main core parameters-
+Name-It indicates the name of the universe that appears in the list of available universes.
+Description-
+Connection-It provides a means of accessing the database.(ODBC, OLEDB, flat files).
+
+Types of connection - 
+Connection can be of 3 types-
+-Personal-Restricts access to data to the universe created and the computer on which it is created. Connection parameters are stored in PDAC.LSI file located in the LSI folder in the business objects folder in your user profile directory. These connections are machine centric.
+C:\Documents and Settings\user\Application Data\Business Objects\Business Objects 12.0\LSI\
+Personal connections are static and cannot be updated.
+-Shared-Allows access to data for all users. Connection parameters are stored in SDAC.LSI
+-Secured-Centralises and controls access to data. It is the safest type of connection and should be used to protect access to sensitive data. You must use secured connection if you want to distribute universe through the CMS. Secured Connections can be updated at any time.
+ 
+
+Aggregate Awareness - is a feature of BO designer to make use of aggregate tables in a database. These are tables that contain pre calculated data. It helps to speed up query execution.
+
+Multi dimensional analysis - 
+
+Hierarchy - 
+---------------------------------------------------------------------------------------------------------
+ 
+Dimension Table aka Lookup Table - a lookup table or dimension table contains information associated with a particular subject or entity.
+
+Fact Table - contains statistical information about transactions. 
+
+Info objects can be dimension or fact. If the table has dimensions, we call it characteristic info object. If it is a fact we call it key figure info object.
+
+Join Path Problem - It can arise from the way that lookup and fact tables are related in a relational database. There are 3 kinds of Join Path Problem: 
+i. Loop - A loop is a set of joins that defines a closed path through a set of tables. Loops occur when joins form multiple paths between lookup table.
+How do you resolve loops?
+Loops can be resolved by using alias, a temporary name which is assigned to the table. An alias breaks the loop by using the same table twice in the same query.
+Context - A context resolves a loop by defining a set of joins that specify one specific path through tables in a loop.
+
+ii. Chasm Trap - is a type of join path between 3 tables when 2 many to one joins converge on a single table and there is no context in place that separates the converging join path.
+How do you get this type of error?
+A many to one to many relationship exists among 3 tables in the universe structure. There are multiple rows returned for a single dimension.
+How do you resolve a Chasm Trap?
+To resolve a chasm trap  you need to make two separate queries and then combine the results. Depending on the type of objects defined for the fact table you can: i. create a context for each table. If not modify the sql parameters for the universe so you can generate separate sql queries for each measure.
+
+iii. Fan Trap - It is a type of join path between 3 tables when a one to many join links a table which in turn linked by another one to many join.
+
+Universe is saved by .unv files.
+---------------------------------------------------------------------------------------------------------
+
+Web Intelligence is a part of SAP Business Object Product Suite and is used for analytical and adhoc reporting to meet an organisations business requirement.'
+
+WebI architecture:
+SAP WebI has a three layered architecture:
+i. Database layer - This layer defines multiple SAP and non SAP data sources.
+ii. Semantic layer - This layer defines multi dimensional data model.
+iii. Presentation layer - This layer defines where data is presented to end users.
+
+SAP sources - All functional modules of SAP like SAP CRM, FI, CO, MM, PP, QM, SAP BI/BW, Bex Query.  
+Only when your'e using non SAP sources like Oracle, SQl server, DB2, Cybas, Informatica only then you create this joins or find all these problems.
+
+Query engine/ query server
+
+WebI Preferences - Administrator's role: resetting the password, setting time zone, locale preference.
+BI workspace/ developer mode/ developer preference: Style sheet, default style sheet, printing options, default measuring unit.
+
+A client can change the data only if we give quick filters.
+
+Application modes - There are 3 different application modes that can be used to build the queries, create documents and to analyse the reports.
+i. Data mode - to create a new data provider, change an existinng data source and add another data source.
+ii. Reading mode - This mode allows you to display existing reports and monitor changes in the reports. This is read only mode.
+iii. Design mode - allows you to add, delete objects in a report, apply formulas and conditional formatting in the report.
+
+Interface:
+i.Web - will open in html which will open in a browser.
+ii.Rich internet application 
+iii.desktop
+iv.PDF
+v.mobile
+
+Sending a document using: Email, FTP.
+---------------------------------------------------------------------------------------------------------
+
+Filters:
+
+Database/Query/Document
+
+Query filter allows you to retrieve only the data that you need to answer a business requirement. It is used to limit the rows returned and hide the data that you don't want to show to specific people.
+There are 4 types of Query filters:
+i.Pre-defined filters - These filters are created by administrators and saved at the universe level.
+ii.Quick filter - are used to quickly retrieve the values you want without the use of filter editor.
+iii.Prompt - is a special filter which allows users to enter a value every time the data is refreshed.   
+
+Report filters - Filter that is applied at the report level on reports and charts. These filters are not used to limit the data retrieval from the data source. Two types - local filter, global filter.
+Local filter is for workbook, global filter is for that particular worksheet.
+
+Data visualisation tools are always considered as Business driven application rather than IT driven application. Data visualisation tools works on in memory architecture.
+
+Image format should be either gif or jpeg type.
+
+Most commonly used charts:
+Bar Chart - If you want to compare data accross categories you can use bar chart and is also used to see trends within your data.
+Line Chart - Line charts connect individual, numeric data points. The primary use is to display trends over a period of time. 
+Pie chart - Pie chart is used to show relative proportions or percentage of information. 
+Map - shows the geocoded data.
+Scatter plot gives you a sense of trends, concentration and outliers that will direct you to focus your investigation.
+Bubble chart - can be used to show the concentration of data along two axis. Eg. - sales concentration by product and geography.
+Histogram - can be used when you want to see how the data is distributed accross groups.
+Heat map - are used to compare datas accross two categories using colour.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

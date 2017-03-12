@@ -1,0 +1,280 @@
+1. Powercentre provides an environment which allows you to load data into a centralised location such as dataware house or ODS.
+2. Components of Powercentre-
+
+3. 
+Powercentre domain -is the primary unit
+
+4.
+Powercentre repository -contains the instructions required to extract transform and load data.
+
+5.
+Administration Console- web interface which will help 
+6.
+Domain Configuration- is a set of relational database tables that stores the configuration information of the domain.
+7.
+Service manager-Admin console,domain config all works under .
+
+8.
+Powercenter Client is an application which is used to define sources,targets,build mappings and mapplets with the transformation logic and create work flows to run the mapping logic.
+9.
+Repository Service- accepts request from the powercenter client to create and modify repository metadata and accepts request from the integration service for metadata when a workflow runs.
+10.
+Web service hub is a gateway that exposes powercenter functionality to external client through web service.
+11.
+Using SAP BW we can directly get connected to our SAP functional applications.
+12.
+Reporting Service-generates customised reports.
+13.
+Metadata manager service and Reference table manager service.
+
+14.
+Service Manager Functions
+1. Alerts ,Authentication, Domain Config ,Node Config ,Licensing 
+
+Logging-it provides your logs.
+User Management
+
+15.
+Powercenter Repository- relational database that consists all the metadata.
+
+Two types- Global and Local Rep.
+Global-Hub of your domain that stores all the objects of your domain.
+Local-local 
+Version repository-efficient deployement. Informatica Repository Exchange.
+
+16.
+Powercenter Client-
+1. Designer-is used to create mappings that contain transformation instruction for the integrating service.
+2. Rep manager-is used to assign permissions to user and groups and manage folders.
+3. WF Manager-is used to create schedules and run workflows.
+4. WF Monitor-is used to monitor schedules and running workflows.
+5. Mapping architect for Visio-is used to create mapping templates,used to generate multiple mappings.
+
+P.C. Designer-
+1.Source analyser-is used to import or create source definitions.
+2.Target designer-is used to import or create target definitions.
+3.Transformation developer-used to develop transformations to be used in mappings.
+4.Mapplets Designer-is used to create set of transformations to use in mappings.
+5.Mapping Designer-is used to create mappings that the integration service uses to extract,transform and load data.
+
+
+Navigator-the one under which we have mappings etc
+Workspace-
+Output-
+
+Repository Manager-
+-Manage user and group permission.
+-Perform folder function.
+-View Metadata.
+
+Repository Object-
+-Source Definition-definition of database object such as table,view,synonyms or files that provide source data.
+-Target Definition-definition of database object that contains your target data.
+-Mappings
+-Reusable Transformations- transformations that can be used in multiple mappings.
+-Mapplets-
+-Sessions and Workflows- a session is a type of task that you can put in a workflow.A workflow is a set of instructions that describes how and when to run tasks related to ETL data.
+
+Workflow Manager
+-Task developer-create tasks that you want to accomplish in the workflow.
+->Worklet is an object that groups a set of tasks.You can nest a worklet inside a workflow.
+-Workflow designer-used to create a workflow by connecting tasks with links.
+-Workflow monitor-consists of the following windows-navigator window,output window,time window-it displays progress of workflow runs,Gnatt chart view,displays details about workflow run in chronological format.
+task view-displays details about workflow runs in a report format.You can view details about a workflow in gnatt chart view or task view.
+
+Import source definition-
+
+When you import a source you import the following source metadata-1.Source Name 2. Database location 
+3.Coulumn names-setting keys,constraints,data types.
+
+Key relationship
+
+Transformation is a repository object that generates,modifies or passes data.
+Transformation in a mapping represents the operation the integration service performed on the data.
+
+Active transformation-can change the number of rows that passes through it. Eg- Filter transformation that removes rows that do not meet the filter condition.
+
+Passive transformation-does not change the number of rows that passes through it.Eg- Expression transformation which performs a calculation on data and passes all rows through the transformation.
+
+Connect transformation- transformations can be transferred through multiple
+Unconnect- passes through a single transformation.
+
+Transformation		|  	Type			|	Description
+1.Aggregator	    		Active/Connected		performs aggregate calculation
+2.Application
+Source Qualifier		Active/connected		represents the rows that the integration 								service reads from an application 
+								such as an ERP source.
+3.Custom			Active/Passive/Connected	calls the procedure in a shared library.
+
+4.Expression			Passive/Connected		calculates a value.
+5.Filter			Active/Connected		filters data.
+6.Joiner			Active/Connected		joins data from different databases or flat
+								file system.
+7.Lookup			Passive/connected or unconncted		looksup values
+8.Normalizer			Active/connected		
+9.Rank				Active and connected		
+10.Sorter			Active or Passive/  connected
+11.SQL				Active or Passive/connected
+12.Union			Active / connected
+13.Unstructed Data 		Active or Passive
+
+
+Aggregator transformation performs calculations in groups whereas Expression transformation performs calc on a row by row basis only.
+Components of aggregator-
+Aggregator Cache-stores the data temporarily until the data is 
+aggregator expression-
+group by port-will indicate how to create groups in a aggregator transformation
+sorted input-
+
+
+Expression transformation is used to calculate values in a single row.
+eg-concat of first name and last name,adjusment of salary or in decimal points.
+
+Filter transformation is used to filter out the rows in the mapping.It allows rows that meet the specified filter condition to pass through.A filter condition returns true or false for each row that the integration service evaluates.
+
+Joiner Transformation is used to join the source data from two related heterogeneous sources residing in different locations, filesystems or from the same source.
+
+Properties of join transformation:
+1. case sensitive string comparison - The Integration service uses case sensitive string comparison when performing joins.
+2. cache directory - This specifies the directory used to cache, master or detail rows and the index to these rows.
+3. join type - specifies the type of join
+4. tracing level - amount of detail displayed in the session log for this transformation.
+5. sorted input - specifies the data that is sorted (used for performance umprovement).
+
+Types of joins that are supported by joiner transformation - Normal join, Master outer join, detail outer join and full outer join.
+
+Normal join - with normal join the IS discards all rows of data from the master and detail source that do not match based on the condition
+
+Master outer join - a master outer join keeps all rows of data from the detail source and the matching rows from the master source. 
+
+Detail outer join - keeps all rows of data from the master source and the matching rows from the detail source.
+
+Full outer join - a full outer join keeps all rows of data from both the master and detail source.
+---------------------------------------------------------------------------------------------------------
+
+Lookup Transformation is used to lookup data in a flat file, relational table, BU or synonym. You can import a lookup definition from any flat file or relational database to which both the power center client and IS can connect.
+
+Rank Transformation - Using rank transformation you can select only the top or bottom rank of data is used to return the largest or smallest numeric value in a port or a group.
+
+Router Transformation - A router transformation is similar to a filter transformation because both allows you to use a condition to test the data. A router transformation tests the data for one or more caonditions and gives you the option to route rows of data that do not meet any of the condition.
+
+Sequence generator transformation - It generates numeric values and used to create unique primary key values replace missing primary keys.
+
+Sorter Transformation - Used to sort data in ascending or descending order according to a specified sort key.
+
+Source qualifier transformation - represents the rows that the IS reads when it runs a session. While using source qualifier transformation you can join data that is join two or more tables with primary key/foreign key relationship by linking the sources.
+
+Filter rows specifies an outer join rather than the default inner join.
+---------------------------------------------------------------------------------------------------------
+
+Date-Time Format for eache database:
+
+Source				Date-Time Format
+DB2				YYYY-MM-DD-HH:MI:SS
+Informix			YYYY-MM-DD-HH:MI:SS
+Microsoft SQL Server		MM/DD/YYYY HH:MI:SS
+ODBC				YYYY-MM-DD-HH:MI:SS
+Oracle				MM/DD/YYYY HH:MI:SS
+Cybase				MM/DD/YYYY HH:MI:SS
+Terradata			YYYY-MM-DD-HH:MI:SS
+
+
+Store procedure transformation is used for maintaining databases. DBA's create store procedures to automate tasks that are too complicated for standard SQL statements.
+
+Union Transformation is a multiple input through transformation that is used to merge data from multiple pipeline into one pipeline.
+
+Update strategy transformation - is used to derive the data that is extracted from the data warehouse where the entire historical data need not be loaded to the BI system.
+
+XML Transformation - is used by the IS to read the data that is coming from a semi structured data. 
+
+---------------------------------------------------------------------------------------------------------
+
+A Mapplet is a reusable object which contains a set of transformations that lets you reuse in multiple mappings. Eg - if you have several FACT tables that require a series of dimension keys you can create a mapplet containing a series of lookup transformations to find each dimension key. You can use the mapplet in each FACT table mapping rather than recreate the same lookup logic in each mapping.
+
+Mapplets helps us in simplifying the mapping in the following ways: 
+1. Include source definition.
+2. Accept data from sources in a mapping.
+3. Include multiple trransformation.
+4. Pass data to multiple transformation.
+
+Mapping Parameter: 
+Filter, joiner, rank, aggregator, expression, router, lookup
+
+A mapping parameter represents a dynamic value that you can define before running a session.
+
+Worklet: A worklet is an object representing a set of tasks created to reuse workflow logic in multipole workflows.
+
+A session is a set of instructions that tells the IS how and when to move data from sources to targets.
+
+Task: A WFM(Workflow Manager) contains multiple and many types of tasks to help build workflows and worklets.
+
+The IS runs pre session sequel before reading the source and runs post session sequels after it writes to the target.
+
+Timestamp: the presequel and the postsequel commands can be checked by the timestamp. these commands can also be used for creating indexes.
+
+---------------------------------------------------------------------------------------------------------
+
+ETL
+
+Purpose of Document
+ - Elaboration of business process
+ - Process Describing data management
+ - KPI's(key performance indicators)
+
+Scope
+ -KPI's(key performance indicators)
+
+Approach
+ -Source Data-> Staging Area-> DWH(KPI'S)-> Reports-> Decision
+
+Business Drivers
+ 
+Repository Object	  Naming Convention
+ -Mapping Name		(M_meaningful name)
+ -Session Name		(S_M_'mapping name')
+ -Log files		(Session_name.log/workflow_name.log)
+ -Workflow name		(WFLW_meaningful name)
+
+
+Workflow Objects 	   Naming Convention
+ -Worklet Name		(WKLT_meaningful name)
+ -Commandline names	(CMD_meaningful name)
+ -Decision names	(DESN_meaningful name)
+ -Control names		(CNTRL_meaningful name)
+ -Email names 		(email_meaningful name)
+ -Assignment names	(ASGMNT_meaningful name)
+
+Transformation Objects			 Naming convention
+ -Aggregator Transformation		(AGG_meaningful name)
+ -Expression Transformation		(EXP_meaningful name)
+ -Filter Transformation			(FIL_meaningful name)
+ -Joiner Transformation			(JNR_(sourcetable/filename1_sourcetable/filename2)
+ -Lookup Transformation			(LKP_lookuptablename
+ -Mapplet				(MPLT_meaningful name)
+ -Rank Transformation			(RNK_meaningful name)
+ -Router Transformation			(RTR_meaningful name)
+ -Sorter Transformation			(STR_meaningful name)
+ -
+
+FTP: When using FTP in a session you need to have FTP connection name, remote filename and exact path. 
+
+
+SCD - Slowly Changing Dimensions. The dimension table changes very slowly which means it does not change on a regular basis.
+SCD type 1 - it will just store latest or current data in the dimension table. It doesn't store historical data. When updating the existing data the previous or historical data will be removed.
+SCD type 2 - will store all the values that is the current and historical data. 
+SCD type 3 - In this type, only the present data and the first previous data will be stored. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

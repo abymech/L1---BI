@@ -1,0 +1,142 @@
+Teradata is an RDBMS application that drives a company's data warehouse. Teradata is built for large scale data. This is achieved by parallelism.
+
+Features of Teradata: Teradata is based on MPP(Massively parallel processing) architecture. It divides the workload evenly accross the entire system.
+->Shared Nothing Architecture - Teradata components and discs associated works independently. 
+->Linear Scalability - Teradata systems can scale upto 2048 nodes.
+->Connectivity - It can connect to channel attached systems such as mainframe or network attached systems.
+
+
+A node consists of it's own operating system, CPU, memory, copy of Teradata RDBMS software and disk space.
+In Teradata a cabinet consists of multiple nodes.
+
+Parsing engine receives the sql query from the client.
+parse the sql query check for syntax errors.
+check if the user has required privileges against the objects used in the sql query.
+check if the object exists. 
+Prepare the execution plan and pass it to the MPS/BYNET.
+receives the outup from amps and send it to the client
+
+mps is also called as BYNET which is the network layer in teradata. It allows communication between parsing engine and amps. It receives the execution plan from parsing engine and sends into amps.
+
+amp(access module processor) is called as virtual processors which is designed to manage the database. amps receive the data and execution plan from parsing engine performs any datatype conversion, aggregation, sort, filter and stores the data in the disk associated with them.
+
+RETRIEVAL architecture - when the client runs queries to retrieve records the parsing engine sends a request to BYNET. BYNET sends the retrieval requests to AMPs. The AMPs will search the disks in parallel and identify the required records and sends to BYNET. BYNET then sends the records to parsing engine which in turn will end to the client.
+
+SMP - Symmetric multi processing platform. It manages terabytes of data to support an entry level data warehouse system.
+
+MPP - Massively Parallel Processing. It can manage hundreds of petabytes of data
+
+Teradata uses hash partitioning to randomly and evenly distribute data across all AMPs.
+
+tables are sorted by their row id. it is a combination of a row hash and uniqueness id and then it is stored within the AMP.
+
+the benefits of unordered data or no maintainance is required to preserve the order.
+It is dependent of any query being submitted.
+
+Primary Index - is used to specify where the data resides in teradata. It is used to specify which AMP gets the data row. Teradata automatically assigns the PI if not defined. There are two types of PI.
+UPI - Unique Primary Index. If the table is defined to be having UPI then the column set as UPI should not have any duplicate values. If any duplicate values are inserted they will be rejected.
+NUPI - Non Unique Primary Index. If the table is defined to be having NUPI, then the column set can accept duplicate values. A primary index can consist of a single column or upto 16 columns. 
+
+Difference between primary key and primary index.
+A primary key is a relational modelling convention which allows each row to be uniquely identified whereas a primary index is a teradata convention which determines how the rows will be stored and accessed.
+
+Secondary indexes are an alternate path to access the data. A table can have 0 to 32 secondary index. SI is not involved in data distribution. It is basically chosen to improve table performance.
+
+Comparison of primary and secondary index.
+Index feature			primary				secondary
+Required?			yes				no
+No. per table			1				0-32
+Max no. of columns		16				16
+unique or non unique		both				both
+affects row distribution	yes				no
+created or dropped dynamically	no				yes
+improves access			yes				yes
+multiple datatypes		yes				yes
+separate physical structure	no				sub table
+extra processing overhead	no				yes
+---------------------------------------------------------------------------------------------------------
+
+TERADATA BTEQ
+BTEQ is a utility in Teradata that can be used in both batch mode and interactive mode. It is used to run any DDL statements DML statements, create macros and store procedure.
+BTEQ can be used to import data into teradata tables from flat file and it can be used to extract data from teradata tables into files or reports. 
+
+LIST OF COMMON TERMS USED IN BTEQ SCRIPTS:
+logon - is used to login to teradata system.
+activity count - returns the no. of rows affected by the previous query.
+error code - returns the status code of the previous query.
+database - sets the default database.
+run file - executes the query contained in a file.
+import - specifies the input file path.
+export - specifies the output file path.
+
+
+Why should we use BTEQ script?
+-It can be used in both interactive as well as batch mode.
+-you can get the results/output in a report format, whereas in sql assistant you have the results in spreadsheet format.
+- it helps us to leverage our analysis.
+- you can easily import and export the data by using the option input file and export file whereas the same is not possible in sql assistant.
+
+Teradata works in two modes - teradata mode and ANSI mode. 
+
+Performance tuning:
+-explain - The first step in performance tuning is the use of explain on your query. Explain plan gives the details of how optimiser will execute your query. The joins, join strategy used, spool file size etc.
+-collect statistics - this command is used to collect the data demographics of the table.
+-datatypes.
+-conversion - data conversion.
+-sort
+-spool space issue - buffer/storage space.
+-primary index
+-set table - if you define a set table the optimiser will check if the record is duplicate for eache and every record inserted.
+-dropping temporary tables
+---------------------------------------------------------------------------------------------------------
+
+fast export utility is used to export data from teradata table into flat files. It is used for exporting huge volume of data if it has more than half a million record. Fast export exports the data in 64kbs(63.5kb).
+Teradata supports 15 simultaneous fast load, multi load or fast export jobs.
+
+Tenacity - It is the no. of hours that fast export will try to establish a connection to the system.
+Sleep - the no. of minutes that fast export will wait between logon attempts.
+
+Key features of fast export - fast export only exports data from teradata.
+fast export supports only select statement, only DML statement that fast export understands is select.
+Choose fast export over BTEQ when exporting data more than half million rows.
+Fast export supports multiple select statements and multiple tables and each select can use 64 tables.
+
+Fast Load - this utility is used to load data into empty tables. It does not load duplicate rows. Fast load should not have secondary index, join index and foreign key reference. Fast load does not use transient journal. The transient journal protects against failures that may occur during transaction process. 
+
+Features of fast load - loads the large amount of data into single empty table at high speed.
+can be executed in batch or interactive mode.
+checkpoints can be taken for automatic restarts.
+If an AMP goes down fast load cannot be restarted until the AMP is back online.
+
+How fast load works - 
+fast load is executed in two phases: i.the parsing engine reads the record from the input file and sends a block to each AMP. 
+each AMP stores the block of records. 
+AMPs hash each record and redistribute to the current AMP.
+ii.> phase ii starts when fast load receives the end loading statement.
+each AMP sorts the records on row hash and writes them to the disk. Locks on the target table is released and error tables or drop.
+
+Checkpoints - if checkpoint parameter is not specified fast load takes checkpoint on every hundred thousand input records. 
+
+Multi load - can load multiple tables at a time and can also perform different types of task such as insert, delete, update and upsert. It can load upto 5 tables at a time and perform upto 20 DML operations. Multi load can work on batch mode and interactive mode. Allows duplicate rows, it reports error via error tables.
+
+Phases of import task: 
+i.> Preliminary task - basic setup is performed, validates the multi load and sql statements. Establishes the session.
+ii.> DML Transaction - all the DML statements are sent to teradata. Parsing engine parses the DML and generates a step by step plan to execute the request. This plan is done communicated to each AMP and stored in the target table.
+iii.> Acquisition - sends the input data to the AMPs 
+iv.> Application - apply the input data into proper table.
+v.> Clean up - Error logs and data are cleaned.
+
+Limitations of multi load: Multi load does not support select statements. Concatenation of multiple input data files is not allowed.
+Multi load doesn't support arithmatic functions, exponentiation, aggregation, USI, referential integrity, join index, hash index and triggers.
+
+Teradata tables - teradata supports different types of tables: i. permanent tables - this is the default table and it contains data inserted by the user and stores the data permanently. 
+ii. volatile table - the data inserted into a volatile table is retained only during the user session.The table and data is dropped at the end of the session. These tables are mainly used to hold the intermediate data. 
+iii. Derived tables - it holds the intermediate results in a query.
+
+Teradata can compress upto 255 distinct values including null per column.
+
+
+
+
+
+

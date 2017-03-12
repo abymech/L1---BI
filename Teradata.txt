@@ -1,0 +1,51 @@
+TERADATA:
+	It drive the companies data warehouse.Teradata is built for large scale data this is acheived by parallelism.
+	WINDOWS,MAC,NOVELL,LINUX
+feature:
+	terdata is based on MPP(massively parallel processing) architecture is divided workflow evenly across the entire system.
+Shared Nothing Architecture:
+	Teradata component and disc associated works independently
+Linear Scalability:
+	Teradata system can scale upto 2048 nodes.
+Connectivity:
+	It can connect chanel attach system such as mainframe and network attach system.
+Teradata Architecture:
+	
+
+STORAGE ARCHITECTURE:
+	When a client run a queries to insert record parsing engine sends the record to BYNET.BYNET retrieves the record sends the rows to AMP.AMP stores these records
+on its disk.Retrival Architecture,when the clients runs the query to retrieve the record the parsing engine sends a request to BYNET.BYNET sends the retrieval request to AMPs the AMPs will search the disk in parallel and identify the require records and sends to BYNET.BYNET then sends the record to parsing engine which in turn will send to the client.
+	SMP(symmetric multi processing platform, it managhes terabytes of data to support and entry level data warehouse system)
+	MPP(massively Paralleel Prcessing) It can manage hundreads of petabytes of data.
+	teradata uses hash partitioning to randomly and evenly distribute data across all AMPs.
+	hashing Alogorithm a row is assign to aparticular AMP based on the primary index value teradata uses hashing algorithm to determine which AMP gets the row.
+	Steps to insert to the data:
+	The client submit the query the parser receive the query and parsers PI(primary index) value of the record to the hashing algorithm.
+	The hashing algorithm hashes the primary index value and returns a 32-bit number called as row hash.In the 32 number, the first 16 bit use to identify the hash map entry.BYNET sends the data to the identified AMP.AMP uses the 32 bit row hash to locate the row within the disc.
+	How tables are store?
+	tables are sorted by their rowid.Rowid has the combination of row hash and uniqueness id and then it is store within the AMP.
+	The benefits of unorder data :
+	No maintainance is required to preserve the order.It is dependent of any query being submitted.
+	Primary Index: It is used specify where the data recides in teradata.It is used to specify which AMP gets the data row.Teradat auomatically assign Pi if not defined.
+
+	there are 2 types of Primary Index
+	UPI:(unique Primary Index):If the table is defined to have the UPI then the column deemed as UPI should not have any duplicate values.If any duplicate values are inserted they will be rejected. 
+	NUPI(Non unique primary index):If the table is defined to be having NUPI then the column deemed can except duplicate values. a primary index can consist of single column or upto 16 columns.A primary key is relational modelling covention which allows each row to be uniquey identifies where as primary index is a teradata convention which determines how the rows will be stored and accessed.Primary key is a unique and primary index is constraint of derived primary key.
+	Secondary index:Secondary indexes are an alternate path to acces the data.A table can have zero to 32 secondary indexes.So,secondary indexes is optional.SI is not involve in data disrtribution.Secondary indexes add overhad in terms of disk space.It is basically choosen to improve the table performance.
+
+	Comparision of primary & secondary index
+			
+1.Index feature:		Primary							Secondary
+
+Required			yes							No
+Numbner per table		One							0-32
+Miximum no. of column		16							16
+Uniqueness Or Non		Both							Both
+Affects row distribution	yes							No
+created or drop dynamically	yes							yes
+Improve access			yes							yes
+multiple datatypes		yes							yes
+Seperate physical structure	No							yes(sub-table)
+Extra Processing overhead	No 							yes
+
+Full Table Scan:When no conditioon are specified in the select statement then the optimizer may choose to use full table scan where each and every row is accessed.
